@@ -82,8 +82,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="YourpayPaymentProvider.cs" />
-    <Compile Include="YourpaySettings.cs" />
+    <Compile Include="YourpayCheckoutOneTimeSettings.cs" />
+    <Compile Include="YourpayCheckoutOneTimePaymentProvider.cs" />
+    <Compile Include="YourpayPaymentProviderBase.cs" />
+    <Compile Include="YourpaySettingsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
