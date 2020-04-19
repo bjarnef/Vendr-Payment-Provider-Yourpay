@@ -38,5 +38,100 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 }
             };
         }
+
+        public override ApiResult FetchPaymentStatus(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        {
+            // Get payment: https://yourpay.docs.apiary.io/#/reference/0/payment-data/payment-data
+
+            try
+            {
+
+                //return new ApiResult()
+                //{
+                //    TransactionInfo = new TransactionInfoUpdate()
+                //    {
+                //        TransactionId = GetTransactionId(payment),
+                //        PaymentStatus = GetPaymentStatus(payment)
+                //    }
+                //};
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - FetchPaymentStatus");
+            }
+
+            return ApiResult.Empty;
+        }
+
+        public override ApiResult CancelPayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        {
+            // Release payment: https://yourpay.docs.apiary.io/#/reference/0/payment-release/payment-release
+
+            try
+            {
+
+                //return new ApiResult()
+                //{
+                //    TransactionInfo = new TransactionInfoUpdate()
+                //    {
+                //        TransactionId = GetTransactionId(payment),
+                //        PaymentStatus = GetPaymentStatus(payment)
+                //    }
+                //};
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - CancelPayment");
+            }
+
+            return ApiResult.Empty;
+        }
+
+        public override ApiResult CapturePayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        {
+            // Capture payment: https://yourpay.docs.apiary.io/#/reference/0/payment-actions/capture-payment
+
+            try
+            {
+                //return new ApiResult()
+                //{
+                //    TransactionInfo = new TransactionInfoUpdate()
+                //    {
+                //        TransactionId = GetTransactionId(payment),
+                //        PaymentStatus = GetPaymentStatus(payment)
+                //    }
+                //};
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimeSettings>(ex, "Yourpay - CapturePayment");
+            }
+
+            return ApiResult.Empty;
+        }
+
+        public override ApiResult RefundPayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        {
+            // Refund payment: https://yourpay.docs.apiary.io/#/reference/0/payment-actions/refund-payment
+
+            try
+            {
+
+                //return new ApiResult()
+                //{
+                //    TransactionInfo = new TransactionInfoUpdate()
+                //    {
+                //        TransactionId = GetTransactionId(refund),
+                //        PaymentStatus = GetPaymentStatus(refund)
+                //    }
+                //};
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - RefundPayment");
+            }
+
+            return ApiResult.Empty;
+        }
     }
 }
