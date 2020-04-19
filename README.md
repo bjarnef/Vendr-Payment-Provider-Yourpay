@@ -1,3 +1,3 @@
-# Vendr Template Payment Provider
+# Vendr Yourpay Payment Provider
 
 Template Yourpay Provider for Vendr, the eCommerce package for Umbrao v8+
