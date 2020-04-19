@@ -9,7 +9,7 @@ using Vendr.Core.Web.PaymentProviders;
 namespace Vendr.Contrib.PaymentProviders.Yourpay
 {
     [PaymentProvider("yourpay-checkout-onetime", "Yourpay (One Time)", "Yourpay payment provider for one time payments")]
-    public class YourpayCheckoutOneTimePaymentProvider : PaymentProviderBase<YourpayCheckoutOneTimeSettings>
+    public class YourpayCheckoutOneTimePaymentProvider : YourpayPaymentProviderBase<YourpayCheckoutOneTimeSettings>
     {
         public YourpayCheckoutOneTimePaymentProvider(VendrContext vendr)
             : base(vendr)
@@ -23,24 +23,6 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             {
                 Form = new PaymentForm(continueUrl, FormMethod.Post)
             };
-        }
-
-        public override string GetCancelUrl(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
-        {
-            return string.Empty;
-        }
-
-        public override string GetErrorUrl(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
-        {
-            return string.Empty;
-        }
-
-        public override string GetContinueUrl(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
-        {
-            settings.MustNotBeNull("settings");
-            settings.ContinueUrl.MustNotBeNull("settings.ContinueUrl");
-
-            return settings.ContinueUrl;
         }
 
         public override CallbackResult ProcessCallback(OrderReadOnly order, HttpRequestBase request, YourpayCheckoutOneTimeSettings settings)
