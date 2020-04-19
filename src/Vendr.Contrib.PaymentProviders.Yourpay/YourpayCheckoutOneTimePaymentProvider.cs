@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
+using Vendr.Contrib.PaymentProviders.Yourpay.Api;
 using Vendr.Core;
 using Vendr.Core.Models;
 using Vendr.Core.Web.Api;
@@ -19,9 +21,54 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
         public override PaymentFormResult GenerateForm(OrderReadOnly order, string continueUrl, string cancelUrl, string callbackUrl, YourpayCheckoutOneTimeSettings settings)
         {
+            var currency = Vendr.Services.CurrencyService.GetCurrency(order.CurrencyId);
+            var currencyCode = currency.Code.ToUpperInvariant();
+
+            // Ensure currency has valid ISO 4217 code
+            if (!Iso4217.CurrencyCodes.ContainsKey(currencyCode))
+            {
+                throw new Exception("Currency must be a valid ISO 4217 currency code: " + currency.Name);
+            }
+
+            var orderAmount = AmountToMinorUnits(order.TotalPrice.Value.WithTax).ToString("0", CultureInfo.InvariantCulture);
+
+            string paymentFormLink = string.Empty;
+
+            try
+            {
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var merchantId = settings.TestMode ? settings.MerchantId : settings.ProductionMerchantId;
+
+                var data = new
+                {
+                    MerchantNumber = merchantId,
+                    ShopPlatform = "Vendr",
+                    amount = orderAmount,
+                    currency = currencyCode,
+                    cartid = order.OrderNumber,
+                    accepturl = continueUrl,
+                    callbackurl = callbackUrl,
+                    language = "da-DK",
+                    customername = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}"
+                };
+
+                // Generate token
+                var payment = client.GenerateToken(data);
+
+                paymentFormLink = payment.Content.FullUrl;
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - error creating payment.");
+            }
+
+            //GenerateToken
+
             return new PaymentFormResult()
             {
-                Form = new PaymentForm(continueUrl, FormMethod.Post)
+                Form = new PaymentForm(paymentFormLink, FormMethod.Get)
             };
         }
 

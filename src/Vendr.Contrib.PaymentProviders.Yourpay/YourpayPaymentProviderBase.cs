@@ -1,4 +1,5 @@
-﻿using Vendr.Core;
+﻿using Vendr.Contrib.PaymentProviders.Yourpay.Api.Models;
+using Vendr.Core;
 using Vendr.Core.Models;
 using Vendr.Core.Web.Api;
 using Vendr.Core.Web.PaymentProviders;
@@ -34,6 +35,15 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             settings.ErrorUrl.MustNotBeNull("settings.ErrorUrl");
 
             return settings.ErrorUrl;
+        }
+
+        protected YourpayClientConfig GetYourpayClientConfig(YourpaySettingsBase settings)
+        {
+            return new YourpayClientConfig
+            {
+                BaseUrl = "https://webservice.yourpay.dk",
+                Token = settings.MerchantToken
+            };
         }
     }
 }
