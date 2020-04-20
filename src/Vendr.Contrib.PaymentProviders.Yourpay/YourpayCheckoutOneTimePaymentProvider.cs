@@ -151,7 +151,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimeSettings>(ex, "Yourpay - CapturePayment");
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - CapturePayment");
             }
 
             return ApiResult.Empty;
