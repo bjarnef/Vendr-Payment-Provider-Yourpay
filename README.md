@@ -1,3 +1,3 @@
 # Vendr Yourpay Payment Provider
 
-Paylike Payment Provider for Vendr, the eCommerce package for Umbrao v8+
+Yourpay Payment Provider for Vendr, the eCommerce package for Umbrao v8+
