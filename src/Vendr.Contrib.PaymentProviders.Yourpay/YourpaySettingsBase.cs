@@ -34,6 +34,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             SortOrder = 800)]
         public string MerchantToken { get; set; }
 
+        [PaymentProviderSetting(Name = "Language",
+            Description = "Language in payment window.",
+            SortOrder = 800)]
+        public string Language { get; set; }
+
         [PaymentProviderSetting(Name = "Test Mode",
             Description = "Set whether to process payments in test mode.",
             SortOrder = 10000)]
