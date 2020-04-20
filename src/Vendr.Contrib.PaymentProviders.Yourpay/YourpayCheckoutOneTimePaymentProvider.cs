@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using Vendr.Contrib.PaymentProviders.Yourpay.Api;
+using Vendr.Contrib.PaymentProviders.Yourpay.Api.Models;
 using Vendr.Core;
 using Vendr.Core.Models;
 using Vendr.Core.Web.Api;
@@ -30,8 +32,9 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 throw new Exception("Currency must be a valid ISO 4217 currency code: " + currency.Name);
             }
 
-            var orderAmount = AmountToMinorUnits(order.TotalPrice.Value.WithTax).ToString("0", CultureInfo.InvariantCulture);
+            var orderAmount = AmountToMinorUnits(order.TotalPrice.Value.WithTax);
 
+            var paymentToken = order.Properties["yourpayPaymentToken"]?.Value ?? null;
             string paymentFormLink = string.Empty;
 
             try
@@ -41,23 +44,31 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 var merchantId = settings.TestMode ? settings.MerchantId : settings.ProductionMerchantId;
 
-                var data = new
+                var data = new YourpayTokenQuery
                 {
                     MerchantNumber = merchantId,
-                    ShopPlatform = "Vendr",
-                    amount = orderAmount,
-                    currency = currencyCode,
-                    cartid = order.OrderNumber,
-                    accepturl = continueUrl,
-                    callbackurl = callbackUrl,
-                    language = "da-DK",
-                    customername = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}"
+                    //ShopPlatform = "Vendr",
+                    Amount = Convert.ToInt32(orderAmount),
+                    Currency = currencyCode,
+                    CartId = order.OrderNumber,
+                    AcceptUrl = continueUrl,
+                    CallbackUrl = callbackUrl,
+                    CustomerName = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}"
                 };
+
+                if (!string.IsNullOrWhiteSpace(settings.Language))
+                {
+                    data.Language = settings.Language;
+                }
 
                 // Generate token
                 var payment = client.GenerateToken(data);
 
-                paymentFormLink = payment.Content.FullUrl;
+                if (payment.Content != null)
+                {
+                    paymentToken = payment.Content.Token;
+                    paymentFormLink = payment.Content.FullUrl;
+                }
             }
             catch (Exception ex)
             {
@@ -66,6 +77,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
             return new PaymentFormResult()
             {
+                MetaData = new Dictionary<string, string>
+                {
+                    { "yourpayPaymentToken", paymentToken },
+                },
                 Form = new PaymentForm(paymentFormLink, FormMethod.Get)
             };
         }
