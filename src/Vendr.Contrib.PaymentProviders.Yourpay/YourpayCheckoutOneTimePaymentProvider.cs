@@ -64,8 +64,6 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - error creating payment.");
             }
 
-            //GenerateToken
-
             return new PaymentFormResult()
             {
                 Form = new PaymentForm(paymentFormLink, FormMethod.Get)
