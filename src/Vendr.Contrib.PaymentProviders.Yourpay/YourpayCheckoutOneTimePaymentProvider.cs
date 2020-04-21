@@ -106,6 +106,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
             try
             {
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var id = order.TransactionInfo.TransactionId;
+                var payment = client.GetPaymentData(id);
 
                 //return new ApiResult()
                 //{
@@ -130,6 +135,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
             try
             {
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var id = order.TransactionInfo.TransactionId;
+                var payment = client.ReleasePayment(id);
 
                 //return new ApiResult()
                 //{
@@ -154,6 +164,14 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
             try
             {
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var id = order.TransactionInfo.TransactionId;
+                var amount = order.TransactionInfo.AmountAuthorized.Value;
+
+                var payment = client.CapturePayment(id, amount);
+
                 //return new ApiResult()
                 //{
                 //    TransactionInfo = new TransactionInfoUpdate()
@@ -177,6 +195,13 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
             try
             {
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var id = order.TransactionInfo.TransactionId;
+                var amount = -Math.Abs(order.TransactionInfo.AmountAuthorized.Value);
+
+                var payment = client.RefundPayment(id, amount);
 
                 //return new ApiResult()
                 //{
