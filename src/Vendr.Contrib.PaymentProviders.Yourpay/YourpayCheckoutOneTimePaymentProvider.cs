@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
@@ -44,7 +45,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 var merchantId = settings.TestMode ? settings.MerchantId : settings.ProductionMerchantId;
 
-                var data = new YourpayTokenQuery
+                var obj = new YourpayTokenQuery
                 {
                     MerchantNumber = merchantId,
                     //ShopPlatform = "Vendr",
@@ -59,8 +60,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 if (!string.IsNullOrWhiteSpace(settings.Language))
                 {
-                    data.Language = settings.Language;
+                    obj.Language = settings.Language;
                 }
+
+                var json = JsonConvert.SerializeObject(obj);
+                var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
                 // Generate token
                 var payment = client.GenerateToken(data);
