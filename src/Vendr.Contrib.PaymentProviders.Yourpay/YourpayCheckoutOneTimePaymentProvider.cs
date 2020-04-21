@@ -92,16 +92,52 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
         public override CallbackResult ProcessCallback(OrderReadOnly order, HttpRequestBase request, YourpayCheckoutOneTimeSettings settings)
         {
-            return new CallbackResult
+            try
             {
-                TransactionInfo = new TransactionInfo
+                // Callback response: https://www.yourpay.eu/support/hosted-payment-window/
+
+                var currency = request.Form["currency"];
+
+                var uxtime = request["uxtime"];
+                var merchantNumber = request["MerchantNumber"];
+                var transactionId = request["tid"];
+                var tchecksum = request["tchecksum"];
+                var checksum = request["checksum"];
+                var orderId = request["orderid"];
+                var strFee = request["transfee"] ?? "0";
+                var strAmount = request["amount"];
+                var cvc = request["cvc"];
+                var expmonth = request["expmonth"];
+                var expyear = request["expyear"];
+                var tcardno = request["tcardno"];
+                var time = request["time"];
+                var cardId = request["cardid"];
+                var currencyCode = request["currency"];
+
+                // How to check for auto capture?
+
+                var totalAmount = decimal.Parse(strAmount, CultureInfo.InvariantCulture) + decimal.Parse(strFee, CultureInfo.InvariantCulture);
+
+                // Verify
+                if (orderId == order.OrderNumber)
                 {
-                    AmountAuthorized = order.TotalPrice.Value.WithTax,
-                    TransactionFee = 0m,
-                    TransactionId = Guid.NewGuid().ToString("N"),
-                    PaymentStatus = PaymentStatus.Authorized
+                    return new CallbackResult
+                    {
+                        TransactionInfo = new TransactionInfo
+                        {
+                            AmountAuthorized = AmountFromMinorUnits((long)totalAmount),
+                            TransactionId = transactionId,
+                            PaymentStatus = PaymentStatus.Authorized
+                        }
+                    };
                 }
-            };
+            }
+            catch (Exception ex)
+            {
+                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - ProcessCallback");
+            }
+
+            return CallbackResult.Empty;
         }
 
         public override ApiResult FetchPaymentStatus(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
