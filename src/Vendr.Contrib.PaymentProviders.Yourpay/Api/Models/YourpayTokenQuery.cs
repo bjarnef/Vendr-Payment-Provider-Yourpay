@@ -39,5 +39,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 
         //[JsonProperty("use3ds")]
         //public int Use3ds { get; set; }
+
+        [JsonProperty("autocapture")]
+        public string AutoCapture { get; set; }
     }
 }

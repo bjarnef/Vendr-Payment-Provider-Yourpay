@@ -53,7 +53,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     CartId = order.OrderNumber,
                     AcceptUrl = continueUrl,
                     CallbackUrl = callbackUrl,
-                    CustomerName = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}"
+                    CustomerName = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}",
+                    AutoCapture = settings.AutoCapture ? "yes" : "no"
                 };
 
                 if (!string.IsNullOrWhiteSpace(settings.Language))

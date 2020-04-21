@@ -89,7 +89,7 @@
   <ItemGroup>
     <Compile Include="Api\Models\YourpayClientConfig.cs" />
     <Compile Include="Api\Models\YourpayPaymentTokenResult.cs" />
-    <Compile Include="Api\Models\YourpayTokenRequest.cs" />
+    <Compile Include="Api\Models\YourpayTokenQuery.cs" />
     <Compile Include="Api\YourpayClient.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="YourpayCheckoutOneTimeSettings.cs" />
