@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
+﻿namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
     public class YourpayClientConfig
     {

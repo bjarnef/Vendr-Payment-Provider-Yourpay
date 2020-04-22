@@ -159,7 +159,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var client = new YourpayClient(clientConfig);
 
                 var id = order.TransactionInfo.TransactionId;
-                var payment = client.GetPaymentData(id);
+                var result = client.GetPaymentData(id);
 
                 //return new ApiResult()
                 //{
@@ -188,16 +188,18 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var client = new YourpayClient(clientConfig);
 
                 var id = order.TransactionInfo.TransactionId;
-                var payment = client.ReleasePayment(id);
+                var result = client.ReleasePayment(id);
 
-                //return new ApiResult()
-                //{
-                //    TransactionInfo = new TransactionInfoUpdate()
-                //    {
-                //        TransactionId = GetTransactionId(payment),
-                //        PaymentStatus = GetPaymentStatus(payment)
-                //    }
-                //};
+                if (result != null && result.Success)
+                {
+                    return new ApiResult()
+                    {
+                        TransactionInfo = new TransactionInfoUpdate()
+                        {
+                            PaymentStatus = PaymentStatus.Cancelled
+                        }
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -219,16 +221,18 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var id = order.TransactionInfo.TransactionId;
                 var amount = order.TransactionInfo.AmountAuthorized.Value;
 
-                var payment = client.CapturePayment(id, amount);
+                var result = client.CapturePayment(id, amount);
 
-                //return new ApiResult()
-                //{
-                //    TransactionInfo = new TransactionInfoUpdate()
-                //    {
-                //        TransactionId = GetTransactionId(payment),
-                //        PaymentStatus = GetPaymentStatus(payment)
-                //    }
-                //};
+                if (result != null && result.Success)
+                {
+                    return new ApiResult()
+                    {
+                        TransactionInfo = new TransactionInfoUpdate()
+                        {
+                            PaymentStatus = PaymentStatus.Captured
+                        }
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -250,16 +254,18 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var id = order.TransactionInfo.TransactionId;
                 var amount = -Math.Abs(order.TransactionInfo.AmountAuthorized.Value);
 
-                var payment = client.RefundPayment(id, amount);
+                var result = client.RefundPayment(id, amount);
 
-                //return new ApiResult()
-                //{
-                //    TransactionInfo = new TransactionInfoUpdate()
-                //    {
-                //        TransactionId = GetTransactionId(refund),
-                //        PaymentStatus = GetPaymentStatus(refund)
-                //    }
-                //};
+                if (result != null && result.Success)
+                {
+                    return new ApiResult()
+                    {
+                        TransactionInfo = new TransactionInfoUpdate()
+                        {
+                            PaymentStatus = PaymentStatus.Refunded
+                        }
+                    };
+                }
             }
             catch (Exception ex)
             {

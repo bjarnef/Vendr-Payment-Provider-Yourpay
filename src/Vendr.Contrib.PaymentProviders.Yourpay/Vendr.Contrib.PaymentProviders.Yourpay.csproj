@@ -87,8 +87,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Models\PaymentData.cs" />
     <Compile Include="Api\Models\YourpayClientConfig.cs" />
-    <Compile Include="Api\Models\YourpayPaymentTokenResult.cs" />
+    <Compile Include="Api\Models\PaymentResultBase.cs" />
+    <Compile Include="Api\Models\PaymentTokenResult.cs" />
     <Compile Include="Api\Models\YourpayTokenQuery.cs" />
     <Compile Include="Api\YourpayClient.cs" />
     <Compile Include="Properties\VersionInfo.cs" />

@@ -21,11 +21,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public YourpayPaymentTokenResult GenerateToken(object data)
+        public PaymentTokenResult GenerateToken(object data)
         {
             return Request($"/v4.3/generate_token", (req) => req
                 .SetQueryParams(data)
-                .GetJsonAsync<YourpayPaymentTokenResult>());
+                .GetJsonAsync<PaymentTokenResult>());
         }
 
         /// <summary>
@@ -33,10 +33,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// </summary>
         /// <param name="id">Payment ID</param>
         /// <returns></returns>
-        public string GetPaymentData(string id)
+        public PaymentData GetPaymentData(string id)
         {
             return Request($"/v4.3/payment_data?id={id}", (req) => req
-                .GetJsonAsync<string>());
+                .GetJsonAsync<PaymentData>());
         }
 
         /// <summary>
@@ -44,10 +44,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// </summary>
         /// <param name="id">Payment ID</param>
         /// <returns></returns>
-        public string ReleasePayment(string id)
+        public PaymentResultBase ReleasePayment(string id)
         {
             return Request($"/v4.3/payment_release?id={id}", (req) => req
-                .GetJsonAsync<string>());
+                .GetJsonAsync<PaymentResultBase>());
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// <param name="id">Payment ID</param>
         /// <param name="amount">Amount to capture</param>
         /// <returns></returns>
-        public string CapturePayment(string id, decimal amount)
+        public PaymentResultBase CapturePayment(string id, decimal amount)
         {
             return Request($"/v4.3/payment_action?id={id}&amount={amount}", (req) => req
-                .GetJsonAsync<string>());
+                .GetJsonAsync<PaymentResultBase>());
         }
 
         /// <summary>
@@ -68,10 +68,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// <param name="id">Payment ID</param>
         /// <param name="amount">Negative amount for refund</param>
         /// <returns></returns>
-        public string RefundPayment(string id, decimal amount)
+        public PaymentResultBase RefundPayment(string id, decimal amount)
         {
             return Request($"/v4.3/payment_action?id={id}&amount={amount}", (req) => req
-                .GetJsonAsync<string>());
+                .GetJsonAsync<PaymentResultBase>());
         }
 
         private TResult Request<TResult>(string url, Func<IFlurlRequest, Task<TResult>> func)

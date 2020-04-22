@@ -2,7 +2,7 @@
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
-    public class YourpayPaymentTokenResult
+    public class PaymentResultBase
     {
         [JsonProperty("success")]
         public bool Success { get; set; }
@@ -15,17 +15,5 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 
         [JsonProperty("code")]
         public int Code { get; set; }
-
-        [JsonProperty("content")]
-        public Content Content { get; set; }
-    }
-
-    public class Content
-    {
-        [JsonProperty("token")]
-        public string Token { get; set; }
-
-        [JsonProperty("full_url")]
-        public string FullUrl { get; set; }
     }
 }
