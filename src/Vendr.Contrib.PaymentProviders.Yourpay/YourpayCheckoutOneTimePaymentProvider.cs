@@ -27,6 +27,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
         public override bool FinalizeAtContinueUrl => true;
 
+        public override IEnumerable<TransactionMetaDataDefinition> TransactionMetaDataDefinitions => new[]{
+            new TransactionMetaDataDefinition("yourpayPaymentToken", "Yourpay Payment Token")
+        };
+
         public override PaymentFormResult GenerateForm(OrderReadOnly order, string continueUrl, string cancelUrl, string callbackUrl, YourpayCheckoutOneTimeSettings settings)
         {
             var currency = Vendr.Services.CurrencyService.GetCurrency(order.CurrencyId);
