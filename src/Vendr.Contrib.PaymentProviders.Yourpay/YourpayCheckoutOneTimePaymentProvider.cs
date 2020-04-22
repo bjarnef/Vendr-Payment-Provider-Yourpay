@@ -105,8 +105,6 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             {
                 // Callback response: https://www.yourpay.eu/support/hosted-payment-window/
 
-                var currency = request.Form["currency"];
-
                 var uxtime = request["uxtime"];
                 var merchantNumber = request["MerchantNumber"];
                 var transactionId = request["tid"];
