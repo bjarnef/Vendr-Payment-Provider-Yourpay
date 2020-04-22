@@ -20,6 +20,11 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             : base(vendr)
         { }
 
+        public override bool CanCancelPayments => true;
+        public override bool CanCapturePayments => true;
+        public override bool CanRefundPayments => true;
+        public override bool CanFetchPaymentStatus => true;
+
         public override bool FinalizeAtContinueUrl => true;
 
         public override PaymentFormResult GenerateForm(OrderReadOnly order, string continueUrl, string cancelUrl, string callbackUrl, YourpayCheckoutOneTimeSettings settings)
