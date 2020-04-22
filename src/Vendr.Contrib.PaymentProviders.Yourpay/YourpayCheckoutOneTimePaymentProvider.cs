@@ -158,8 +158,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var clientConfig = GetYourpayClientConfig(settings);
                 var client = new YourpayClient(clientConfig);
 
-                var id = order.TransactionInfo.TransactionId;
-                var result = client.GetPaymentData(id);
+                var transactionId = order.TransactionInfo.TransactionId;
+                var result = client.GetPaymentData(transactionId);
 
                 //return new ApiResult()
                 //{
@@ -187,8 +187,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var clientConfig = GetYourpayClientConfig(settings);
                 var client = new YourpayClient(clientConfig);
 
-                var id = order.TransactionInfo.TransactionId;
-                var result = client.ReleasePayment(id);
+                var transactionId = order.TransactionInfo.TransactionId;
+                var result = client.ReleasePayment(transactionId);
 
                 if (result != null && result.Success)
                 {
@@ -196,6 +196,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     {
                         TransactionInfo = new TransactionInfoUpdate()
                         {
+                            TransactionId = transactionId,
                             PaymentStatus = PaymentStatus.Cancelled
                         }
                     };
@@ -218,10 +219,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var clientConfig = GetYourpayClientConfig(settings);
                 var client = new YourpayClient(clientConfig);
 
-                var id = order.TransactionInfo.TransactionId;
+                var transactionId = order.TransactionInfo.TransactionId;
                 var amount = AmountToMinorUnits(order.TransactionInfo.AmountAuthorized.Value);
 
-                var result = client.CapturePayment(id, amount);
+                var result = client.CapturePayment(transactionId, amount);
 
                 if (result != null && result.Success)
                 {
@@ -229,6 +230,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     {
                         TransactionInfo = new TransactionInfoUpdate()
                         {
+                            TransactionId = transactionId,
                             PaymentStatus = PaymentStatus.Captured
                         }
                     };
@@ -251,10 +253,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var clientConfig = GetYourpayClientConfig(settings);
                 var client = new YourpayClient(clientConfig);
 
-                var id = order.TransactionInfo.TransactionId;
+                var transactionId = order.TransactionInfo.TransactionId;
                 var amount = -Math.Abs(AmountToMinorUnits(order.TransactionInfo.AmountAuthorized.Value));
 
-                var result = client.RefundPayment(id, amount);
+                var result = client.RefundPayment(transactionId, amount);
 
                 if (result != null && result.Success)
                 {
@@ -262,6 +264,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     {
                         TransactionInfo = new TransactionInfoUpdate()
                         {
+                            TransactionId = transactionId,
                             PaymentStatus = PaymentStatus.Refunded
                         }
                     };
