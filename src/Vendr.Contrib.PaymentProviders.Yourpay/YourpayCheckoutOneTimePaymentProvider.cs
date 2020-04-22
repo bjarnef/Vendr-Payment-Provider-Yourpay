@@ -219,7 +219,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var client = new YourpayClient(clientConfig);
 
                 var id = order.TransactionInfo.TransactionId;
-                var amount = order.TransactionInfo.AmountAuthorized.Value;
+                var amount = AmountToMinorUnits(order.TransactionInfo.AmountAuthorized.Value);
 
                 var result = client.CapturePayment(id, amount);
 
@@ -252,7 +252,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var client = new YourpayClient(clientConfig);
 
                 var id = order.TransactionInfo.TransactionId;
-                var amount = -Math.Abs(order.TransactionInfo.AmountAuthorized.Value);
+                var amount = -Math.Abs(AmountToMinorUnits(order.TransactionInfo.AmountAuthorized.Value));
 
                 var result = client.RefundPayment(id, amount);
 
