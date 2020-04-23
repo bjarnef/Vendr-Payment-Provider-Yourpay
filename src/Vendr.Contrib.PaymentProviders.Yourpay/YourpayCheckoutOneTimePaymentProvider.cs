@@ -47,6 +47,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             var paymentToken = order.Properties["yourpayPaymentToken"]?.Value ?? null;
             string paymentFormLink = string.Empty;
 
+            bool autoCapture = settings.AutoCapture;
+
             try
             {
                 var clientConfig = GetYourpayClientConfig(settings);
@@ -64,7 +66,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     AcceptUrl = continueUrl,
                     CallbackUrl = callbackUrl,
                     CustomerName = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}",
-                    AutoCapture = settings.AutoCapture ? "yes" : "no"
+                    AutoCapture = autoCapture ? "yes" : "no"
                 };
 
                 if (!string.IsNullOrWhiteSpace(settings.Language))
@@ -94,6 +96,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 MetaData = new Dictionary<string, string>
                 {
                     { "yourpayPaymentToken", paymentToken },
+                    { "yourpayAutoCapture", autoCapture.ToString() }
                 },
                 Form = new PaymentForm(paymentFormLink, FormMethod.Get)
             };
@@ -121,7 +124,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var cardId = request["cardid"];
                 var currencyCode = request["currency"];
 
-                // How to check for auto capture?
+                // Yourpay doesn't return a parameter in callback whether autocapture was set for payment, so check on order property set.
+                bool captured = bool.TryParse(order.Properties["yourpayAutoCapture"]?.Value, out bool c) ? c : false;
 
                 var totalAmount = decimal.Parse(strAmount, CultureInfo.InvariantCulture) + decimal.Parse(strFee, CultureInfo.InvariantCulture);
 
@@ -134,7 +138,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                         {
                             AmountAuthorized = AmountFromMinorUnits((long)totalAmount),
                             TransactionId = transactionId,
-                            PaymentStatus = PaymentStatus.Authorized
+                            PaymentStatus = !captured ? PaymentStatus.Authorized : PaymentStatus.Captured
                         }
                     };
                 }
