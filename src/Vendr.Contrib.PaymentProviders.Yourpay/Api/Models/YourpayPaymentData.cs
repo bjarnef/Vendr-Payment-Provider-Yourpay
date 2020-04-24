@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
-    public class PaymentData : PaymentResultBase
+    public class YourpayPaymentData : YourpayPaymentResultBase
     {
         [JsonProperty("content")]
         public PaymentContent Content { get; set; }

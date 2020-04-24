@@ -2,7 +2,7 @@
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
-    public class PaymentResultBase
+    public class YourpayPaymentResultBase
     {
         [JsonProperty("success")]
         public bool Success { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
-    public class PaymentTokenResult : PaymentResultBase
+    public class YourpayPaymentTokenResult : YourpayPaymentResultBase
     {
         [JsonProperty("content")]
         public TokenContent Content { get; set; }
