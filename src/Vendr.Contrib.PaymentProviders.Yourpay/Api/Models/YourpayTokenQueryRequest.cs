@@ -2,7 +2,7 @@
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
-    public class YourpayTokenQuery
+    public class YourpayTokenQueryRequest
     {
         [JsonProperty("MerchantNumber")]
         public string MerchantNumber { get; set; }

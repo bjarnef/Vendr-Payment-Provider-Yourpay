@@ -56,7 +56,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 var merchantId = settings.TestMode ? settings.MerchantId : settings.ProductionMerchantId;
 
-                var obj = new YourpayTokenQuery
+                var obj = new YourpayTokenQueryRequest
                 {
                     MerchantNumber = merchantId,
                     //ShopPlatform = "Vendr",
@@ -66,7 +66,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     AcceptUrl = continueUrl,
                     CallbackUrl = callbackUrl,
                     CustomerName = $"{order.CustomerInfo.FirstName} {order.CustomerInfo.LastName}",
-                    AutoCapture = autoCapture ? "yes" : "no"
+                    AutoCapture = autoCapture ? "1" : "0"
                 };
 
                 if (!string.IsNullOrWhiteSpace(settings.Language))
