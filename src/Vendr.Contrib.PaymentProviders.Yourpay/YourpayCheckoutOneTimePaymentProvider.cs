@@ -28,6 +28,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
         public override bool FinalizeAtContinueUrl => true;
 
         public override IEnumerable<TransactionMetaDataDefinition> TransactionMetaDataDefinitions => new[]{
+            new TransactionMetaDataDefinition("yourpayPaymentId", "Yourpay Payment ID"),
             new TransactionMetaDataDefinition("yourpayPaymentToken", "Yourpay Payment Token")
         };
 
@@ -95,6 +96,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             {
                 MetaData = new Dictionary<string, string>
                 {
+                    //{ "yourpayPaymentId", paymentId }
                     { "yourpayPaymentToken", paymentToken },
                     { "yourpayAutoCapture", autoCapture.ToString() }
                 },
@@ -136,11 +138,17 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 
                 if (result.Success)
                 {
+                    var paymentId = result.Content.Id.ToString();
+
                     // Verify: Checksum = SHA1 encode of PaymentID + Integrationkey.
-                    if (checksum == SHA1Hash(result.Content.Id.ToString() + settings.IntegrationKey))
+                    if (checksum == SHA1Hash(paymentId + settings.IntegrationKey))
                     {
                         return new CallbackResult
                         {
+                            MetaData = new Dictionary<string, string>
+                            {
+                                { "yourpayPaymentId", paymentId }
+                            },
                             TransactionInfo = new TransactionInfo
                             {
                                 AmountAuthorized = AmountFromMinorUnits((long)totalAmount),
