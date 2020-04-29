@@ -34,9 +34,14 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             SortOrder = 800)]
         public string MerchantToken { get; set; }
 
+        [PaymentProviderSetting(Name = "Integration Key",
+            Description = "Integration Key specified in Yourpay (optional).",
+            SortOrder = 900)]
+        public string IntegrationKey { get; set; }
+
         [PaymentProviderSetting(Name = "Language",
             Description = "Language in payment window.",
-            SortOrder = 800)]
+            SortOrder = 1000)]
         public string Language { get; set; }
 
         [PaymentProviderSetting(Name = "Test Mode",

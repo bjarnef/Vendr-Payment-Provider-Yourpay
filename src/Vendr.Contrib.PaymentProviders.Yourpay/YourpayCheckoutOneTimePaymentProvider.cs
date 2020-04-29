@@ -136,10 +136,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 
                 if (result.Success)
                 {
-                    var integrationKey = "";
-
                     // Verify: Checksum = SHA1 encode of PaymentID + Integrationkey.
-                    if (checksum == SHA1Hash(result.Content.Id.ToString() + integrationKey))
+                    if (checksum == SHA1Hash(result.Content.Id.ToString() + settings.IntegrationKey))
                     {
                         return new CallbackResult
                         {
