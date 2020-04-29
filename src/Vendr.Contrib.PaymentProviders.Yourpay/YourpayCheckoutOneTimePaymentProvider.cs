@@ -123,9 +123,9 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var time = request["time"];
                 var cardId = request["cardid"];
                 var currencyCode = request["currency"];
+                var autoCapture = request["autocapture"];
 
-                // Yourpay doesn't return a parameter in callback whether autocapture was set for payment, so check on order property set.
-                bool captured = bool.TryParse(order.Properties["yourpayAutoCapture"]?.Value, out bool c) ? c : false;
+                bool captured = autoCapture == "1" && bool.TryParse(order.Properties["yourpayAutoCapture"]?.Value, out bool c) ? c : false;
 
                 var totalAmount = decimal.Parse(strAmount, CultureInfo.InvariantCulture) + decimal.Parse(strFee, CultureInfo.InvariantCulture);
 
