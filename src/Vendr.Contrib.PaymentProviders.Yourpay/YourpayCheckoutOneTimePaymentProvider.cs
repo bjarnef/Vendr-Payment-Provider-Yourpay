@@ -129,18 +129,32 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 var totalAmount = decimal.Parse(strAmount, CultureInfo.InvariantCulture) + decimal.Parse(strFee, CultureInfo.InvariantCulture);
 
-                // Verify
-                if (orderId == order.OrderNumber)
+                var clientConfig = GetYourpayClientConfig(settings);
+                var client = new YourpayClient(clientConfig);
+
+                var result = client.GetPaymentData(transactionId);
+                
+                if (result.Success)
                 {
-                    return new CallbackResult
+                    var integrationKey = "";
+
+                    // Verify: Checksum = SHA1 encode of PaymentID + Integrationkey.
+                    if (checksum == SHA1Hash(result.Content.Id.ToString() + integrationKey))
                     {
-                        TransactionInfo = new TransactionInfo
+                        return new CallbackResult
                         {
-                            AmountAuthorized = AmountFromMinorUnits((long)totalAmount),
-                            TransactionId = transactionId,
-                            PaymentStatus = !captured ? PaymentStatus.Authorized : PaymentStatus.Captured
-                        }
-                    };
+                            TransactionInfo = new TransactionInfo
+                            {
+                                AmountAuthorized = AmountFromMinorUnits((long)totalAmount),
+                                TransactionId = transactionId,
+                                PaymentStatus = !captured ? PaymentStatus.Authorized : PaymentStatus.Captured
+                            }
+                        };
+                    }
+                    else
+                    {
+                        Vendr.Log.Warn<YourpayCheckoutOneTimePaymentProvider>($"Yourpay [{order.OrderNumber}] - checksum security check failed");
+                    }
                 }
             }
             catch (Exception ex)
