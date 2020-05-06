@@ -96,7 +96,6 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             {
                 MetaData = new Dictionary<string, string>
                 {
-                    //{ "yourpayPaymentId", paymentId }
                     { "yourpayPaymentToken", paymentToken },
                     { "yourpayAutoCapture", autoCapture.ToString() }
                 },
