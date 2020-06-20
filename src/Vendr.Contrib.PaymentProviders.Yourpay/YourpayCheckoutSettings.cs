@@ -2,7 +2,7 @@
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay
 {
-    public class YourpayCheckoutOneTimeSettings : YourpaySettingsBase
+    public class YourpayCheckoutSettings : YourpaySettingsBase
     {
         [PaymentProviderSetting(Name = "Auto Capture",
             Description = "Flag indicating whether to immediately capture the payment, or whether to just authorize the payment for later (manual) capture.",

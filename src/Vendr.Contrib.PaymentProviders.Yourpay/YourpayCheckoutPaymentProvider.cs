@@ -13,10 +13,10 @@ using Vendr.Core.Web.PaymentProviders;
 
 namespace Vendr.Contrib.PaymentProviders.Yourpay
 {
-    [PaymentProvider("yourpay-checkout-onetime", "Yourpay (One Time)", "Yourpay payment provider for one time payments")]
-    public class YourpayCheckoutOneTimePaymentProvider : YourpayPaymentProviderBase<YourpayCheckoutOneTimeSettings>
+    [PaymentProvider("yourpay-checkout", "Yourpay Checkout", "Yourpay payment provider for one time payments")]
+    public class YourpayCheckoutPaymentProvider : YourpayPaymentProviderBase<YourpayCheckoutSettings>
     {
-        public YourpayCheckoutOneTimePaymentProvider(VendrContext vendr)
+        public YourpayCheckoutPaymentProvider(VendrContext vendr)
             : base(vendr)
         { }
 
@@ -32,7 +32,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             new TransactionMetaDataDefinition("yourpayPaymentToken", "Yourpay Payment Token")
         };
 
-        public override PaymentFormResult GenerateForm(OrderReadOnly order, string continueUrl, string cancelUrl, string callbackUrl, YourpayCheckoutOneTimeSettings settings)
+        public override PaymentFormResult GenerateForm(OrderReadOnly order, string continueUrl, string cancelUrl, string callbackUrl, YourpayCheckoutSettings settings)
         {
             var currency = Vendr.Services.CurrencyService.GetCurrency(order.CurrencyId);
             var currencyCode = currency.Code.ToUpperInvariant();
@@ -89,7 +89,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - error creating payment.");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - error creating payment.");
             }
 
             return new PaymentFormResult()
@@ -103,7 +103,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             };
         }
 
-        public override CallbackResult ProcessCallback(OrderReadOnly order, HttpRequestBase request, YourpayCheckoutOneTimeSettings settings)
+        public override CallbackResult ProcessCallback(OrderReadOnly order, HttpRequestBase request, YourpayCheckoutSettings settings)
         {
             try
             {
@@ -158,19 +158,19 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                     }
                     else
                     {
-                        Vendr.Log.Warn<YourpayCheckoutOneTimePaymentProvider>($"Yourpay [{order.OrderNumber}] - checksum security check failed");
+                        Vendr.Log.Warn<YourpayCheckoutPaymentProvider>($"Yourpay [{order.OrderNumber}] - checksum security check failed");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - ProcessCallback");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - ProcessCallback");
             }
 
             return CallbackResult.Empty;
         }
 
-        public override ApiResult FetchPaymentStatus(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        public override ApiResult FetchPaymentStatus(OrderReadOnly order, YourpayCheckoutSettings settings)
         {
             // Get payment: https://yourpay.docs.apiary.io/#/reference/0/payment-data/payment-data
 
@@ -197,13 +197,13 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - FetchPaymentStatus");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - FetchPaymentStatus");
             }
 
             return ApiResult.Empty;
         }
 
-        public override ApiResult CancelPayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        public override ApiResult CancelPayment(OrderReadOnly order, YourpayCheckoutSettings settings)
         {
             // Release payment: https://yourpay.docs.apiary.io/#/reference/0/payment-release/payment-release
 
@@ -229,13 +229,13 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - CancelPayment");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - CancelPayment");
             }
 
             return ApiResult.Empty;
         }
 
-        public override ApiResult CapturePayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        public override ApiResult CapturePayment(OrderReadOnly order, YourpayCheckoutSettings settings)
         {
             // Capture payment: https://yourpay.docs.apiary.io/#/reference/0/payment-actions/capture-payment
 
@@ -263,13 +263,13 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - CapturePayment");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - CapturePayment");
             }
 
             return ApiResult.Empty;
         }
 
-        public override ApiResult RefundPayment(OrderReadOnly order, YourpayCheckoutOneTimeSettings settings)
+        public override ApiResult RefundPayment(OrderReadOnly order, YourpayCheckoutSettings settings)
         {
             // Refund payment: https://yourpay.docs.apiary.io/#/reference/0/payment-actions/refund-payment
 
@@ -297,7 +297,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             }
             catch (Exception ex)
             {
-                Vendr.Log.Error<YourpayCheckoutOneTimePaymentProvider>(ex, "Yourpay - RefundPayment");
+                Vendr.Log.Error<YourpayCheckoutPaymentProvider>(ex, "Yourpay - RefundPayment");
             }
 
             return ApiResult.Empty;
