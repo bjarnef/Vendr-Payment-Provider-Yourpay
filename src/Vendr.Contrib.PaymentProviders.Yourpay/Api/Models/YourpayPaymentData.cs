@@ -58,7 +58,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
         public string Currency { get; set; }
 
         [JsonProperty("payments")]
-        public object Payments { get; set; }
+        public YourpayPayment[] Payments { get; set; }
 
         [JsonProperty("amount")]
         public int Amount { get; set; }
