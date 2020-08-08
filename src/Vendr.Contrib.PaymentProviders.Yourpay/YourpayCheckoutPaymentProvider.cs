@@ -179,18 +179,19 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 var clientConfig = GetYourpayClientConfig(settings);
                 var client = new YourpayClient(clientConfig);
 
-                var paymentStatus = order.TransactionInfo.PaymentStatus;
                 var transactionId = order.TransactionInfo.TransactionId;
                 var result = client.GetPaymentData(transactionId);
 
                 if (result != null && result.Success)
                 {
+                    var paymentStatus = GetPaymentStatus(result);
+
                     return new ApiResult()
                     {
                         TransactionInfo = new TransactionInfoUpdate()
                         {
                             TransactionId = transactionId,
-                            PaymentStatus = paymentStatus ?? PaymentStatus.Authorized
+                            PaymentStatus = paymentStatus
                         }
                     };
                 }
