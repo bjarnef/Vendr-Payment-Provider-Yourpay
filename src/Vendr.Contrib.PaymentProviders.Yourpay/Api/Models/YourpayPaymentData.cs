@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
     public class YourpayPaymentData : YourpayPaymentResultBase
