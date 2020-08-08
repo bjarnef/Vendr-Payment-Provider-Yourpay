@@ -44,10 +44,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// </summary>
         /// <param name="id">Payment ID</param>
         /// <returns></returns>
-        public YourpayPaymentData ReleasePayment(string id)
+        public YourpayPaymentResultBase ReleasePayment(string id)
         {
             return Request($"/v4.3/payment_release?id={id}", (req) => req
-                .GetJsonAsync<YourpayPaymentData>());
+                .GetJsonAsync<YourpayPaymentResultBase>());
         }
 
         /// <summary>

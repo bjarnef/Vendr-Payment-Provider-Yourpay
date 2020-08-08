@@ -184,14 +184,12 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
 
                 if (result != null && result.Success)
                 {
-                    var paymentStatus = GetPaymentStatus(result);
-
                     return new ApiResult()
                     {
                         TransactionInfo = new TransactionInfoUpdate()
                         {
                             TransactionId = transactionId,
-                            PaymentStatus = paymentStatus
+                            PaymentStatus = GetPaymentStatus(result)
                         }
                     };
                 }
@@ -257,7 +255,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                         TransactionInfo = new TransactionInfoUpdate()
                         {
                             TransactionId = transactionId,
-                            PaymentStatus = PaymentStatus.Captured
+                            PaymentStatus = GetPaymentStatus(result)
                         }
                     };
                 }
@@ -291,7 +289,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                         TransactionInfo = new TransactionInfoUpdate()
                         {
                             TransactionId = transactionId,
-                            PaymentStatus = PaymentStatus.Refunded
+                            PaymentStatus = GetPaymentStatus(result)
                         }
                     };
                 }
