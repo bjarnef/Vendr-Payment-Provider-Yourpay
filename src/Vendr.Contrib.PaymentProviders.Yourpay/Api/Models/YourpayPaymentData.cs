@@ -104,5 +104,8 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 
         [JsonProperty("consumer_data")]
         public object ConsumerData { get; set; }
+
+        [JsonProperty("payout_data")]
+        public YourpayPayoutData PayoutData { get; set; }
     }
 }
