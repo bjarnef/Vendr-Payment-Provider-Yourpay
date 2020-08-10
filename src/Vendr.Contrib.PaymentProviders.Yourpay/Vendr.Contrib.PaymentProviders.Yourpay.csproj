@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Models\YourpayPayment.cs" />
     <Compile Include="Api\Models\YourpayPaymentData.cs" />
     <Compile Include="Api\Models\YourpayClientConfig.cs" />
     <Compile Include="Api\Models\YourpayPaymentResultBase.cs" />
@@ -94,8 +95,8 @@
     <Compile Include="Api\Models\YourpayTokenQueryRequest.cs" />
     <Compile Include="Api\YourpayClient.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="YourpayCheckoutOneTimeSettings.cs" />
-    <Compile Include="YourpayCheckoutOneTimePaymentProvider.cs" />
+    <Compile Include="YourpayCheckoutSettings.cs" />
+    <Compile Include="YourpayCheckoutPaymentProvider.cs" />
     <Compile Include="YourpayPaymentProviderBase.cs" />
     <Compile Include="YourpaySettingsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

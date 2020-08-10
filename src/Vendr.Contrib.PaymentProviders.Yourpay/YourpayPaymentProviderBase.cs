@@ -37,6 +37,23 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
             return settings.ErrorUrl;
         }
 
+        protected PaymentStatus GetPaymentStatus(YourpayPaymentData payment)
+        {
+            if (payment.Content.TimeRefunded > 0 && payment.Content.AmountRefunded > 0)
+                return PaymentStatus.Refunded;
+
+            if (payment.Content.TimeCaptured > 0 && payment.Content.AmountCaptured > 0)
+                return PaymentStatus.Captured;
+
+            if (payment.Content.TimeReleased > 0)
+                return PaymentStatus.Cancelled;
+
+            if (payment.Content.TimeCreated > 0)
+                return PaymentStatus.Authorized;
+
+            return PaymentStatus.Initialized;
+        }
+
         protected YourpayClientConfig GetYourpayClientConfig(YourpaySettingsBase settings)
         {
             return new YourpayClientConfig

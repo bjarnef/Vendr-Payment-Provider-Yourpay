@@ -56,10 +56,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// <param name="id">Payment ID</param>
         /// <param name="amount">Amount to capture</param>
         /// <returns></returns>
-        public YourpayPaymentResultBase CapturePayment(string id, decimal amount)
+        public YourpayPaymentData CapturePayment(string id, decimal amount)
         {
             return Request($"/v4.3/payment_action?id={id}&amount={amount}", (req) => req
-                .GetJsonAsync<YourpayPaymentResultBase>());
+                .GetJsonAsync<YourpayPaymentData>());
         }
 
         /// <summary>
@@ -68,10 +68,10 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api
         /// <param name="id">Payment ID</param>
         /// <param name="amount">Negative amount for refund</param>
         /// <returns></returns>
-        public YourpayPaymentResultBase RefundPayment(string id, decimal amount)
+        public YourpayPaymentData RefundPayment(string id, decimal amount)
         {
             return Request($"/v4.3/payment_action?id={id}&amount={amount}", (req) => req
-                .GetJsonAsync<YourpayPaymentResultBase>());
+                .GetJsonAsync<YourpayPaymentData>());
         }
 
         private TResult Request<TResult>(string url, Func<IFlurlRequest, Task<TResult>> func)

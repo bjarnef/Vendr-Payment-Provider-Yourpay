@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+
 namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
 {
     public class YourpayPaymentData : YourpayPaymentResultBase
@@ -58,7 +59,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
         public string Currency { get; set; }
 
         [JsonProperty("payments")]
-        public object[] Payments { get; set; }
+        public YourpayPayment[] Payments { get; set; }
 
         [JsonProperty("amount")]
         public int Amount { get; set; }
@@ -103,6 +104,6 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay.Api.Models
         public string Token { get; set; }
 
         [JsonProperty("consumer_data")]
-        public object[] ConsumerData { get; set; }
+        public object ConsumerData { get; set; }
     }
 }
