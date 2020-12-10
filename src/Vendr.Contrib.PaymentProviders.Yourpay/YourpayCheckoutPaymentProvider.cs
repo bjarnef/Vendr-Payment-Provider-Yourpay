@@ -43,7 +43,7 @@ namespace Vendr.Contrib.PaymentProviders.Yourpay
                 throw new Exception("Currency must be a valid ISO 4217 currency code: " + currency.Name);
             }
 
-            var orderAmount = AmountToMinorUnits(order.TotalPrice.Value.WithTax);
+            var orderAmount = AmountToMinorUnits(order.TransactionAmount.Value);
 
             var paymentToken = order.Properties["yourpayPaymentToken"]?.Value ?? null;
             string paymentFormLink = string.Empty;
